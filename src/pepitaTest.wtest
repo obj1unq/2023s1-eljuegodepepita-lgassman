@@ -1,0 +1,20 @@
+import pepita.*
+import comidas.*
+
+describe "Tests de Pepita" {
+
+
+	test "Al comer pepita aumenta su energia" {
+		pepita.comer(manzana)
+		assert.equals(105, pepita.energia())
+	}
+
+	test "Al volar pepita pierde energia" {
+		pepita.volar(1)
+		assert.equals(89, pepita.energia())
+	}
+
+
+
+}
+
