@@ -2,21 +2,23 @@ import wollok.game.*
 import pepita.*
 import comidas.*
 import extras.*
+import randomizer.*
 
 program pepitaGame {
-
+	pepita.energia(500)
 	game.height(10)
 	game.width(20)
 	game.addVisual(silvestre)
-	game.addVisual(alpiste)
-	game.addVisual(manzana)
 	game.addVisual(nido)
 	game.addVisual(pepita)
+	game.addVisual(new Manzana(position=game.at(1,1)))
 	keyboard.up().onPressDo({ pepita.mover(arriba, 1)  })
 	keyboard.down().onPressDo({ pepita.mover(abajo, 1) })
 	keyboard.left().onPressDo({ pepita.mover(izquierda, 1) })
 	keyboard.right().onPressDo({ pepita.mover(derecha, 1) })
-	game.onTick(1000, "GRAVEDAD", {pepita.caer()})
+	game.onTick(1000, "GRAVEDAD", {pepita.caer()})	
+	game.onTick(3000, "GENERAR_ALIMENTO", {alimentoManager.generar()})
+
 	game.onCollideDo(pepita, { algo => algo.chocar(pepita)})
 	
 	game.start()

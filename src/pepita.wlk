@@ -41,7 +41,7 @@ object libre {
 
 object pepita {
 
-	var energia = 10000
+	var property energia = 100
 	var property position = game.at(0, 5)
 	var property perseguidor=silvestre
 	

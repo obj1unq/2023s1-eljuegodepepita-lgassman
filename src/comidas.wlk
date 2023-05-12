@@ -1,6 +1,53 @@
 import wollok.game.*
+import randomizer.*
 
-object manzana {
+object manzanaFactory {
+	
+	method nuevo() {
+		return new Manzana(position = randomizer.emptyPosition())
+	}
+}
+
+object alpisteFactory {
+	
+	method nuevo() {
+		return new Alpiste(position = randomizer.emptyPosition(), peso = (40..100).anyOne())
+	}
+}
+
+
+object alimentoManager {
+	
+	const generadas = #{}
+	const limite = 3
+	const factories = [manzanaFactory, alpisteFactory]
+	
+	method generar() {
+		if(generadas.size() < limite) {
+			const alimento = self.nuevoAlimento()	
+			game.addVisual(alimento)
+			generadas.add(alimento)
+		}
+	}
+	
+	method eliminar(alimento) {
+		game.removeVisual(alimento)
+		generadas.remove(alimento)
+	}
+	
+	method elegirFactory() {
+//		 const index = if (0.randomUpTo(1) < 0.45) {1} else {0}
+//		 return factories.get(index)
+	     return factories.anyOne()  
+	}
+
+	method nuevoAlimento() {
+		return self.elegirFactory().nuevo()
+	}
+	
+}
+
+class Manzana {
 	const base= 5
 	var madurez = 1
 	
@@ -18,18 +65,19 @@ object manzana {
 		
 	method chocar(personaje) {
 		personaje.comer(self)
-		game.removeVisual(self)
+		alimentoManager.eliminar(self)
 	}
 
 }
 
-object alpiste {
+class Alpiste {
 	var property position = game.at(3,4)
+	const peso = 10
 	
 	method image() { return "alpiste.png" }
 
 	method energiaQueOtorga() {
-		return 20
+		return peso
 	}
 	 
 //	method comido() {
@@ -38,7 +86,7 @@ object alpiste {
 
 	method chocar(personaje) {
 		personaje.comer(self)
-		game.removeVisual(self)
+		alimentoManager.eliminar(self)
 	}
 	
 

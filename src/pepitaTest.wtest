@@ -2,7 +2,9 @@ import pepita.*
 import comidas.*
 
 describe "Tests de Pepita" {
-
+	
+	const manzana = new Manzana()
+	
 
 	test "Al comer pepita aumenta su energia" {
 		pepita.comer(manzana)
