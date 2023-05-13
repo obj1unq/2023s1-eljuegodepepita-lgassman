@@ -12,6 +12,9 @@ object derrotada {
 	method validarMover(){
 		self.error("Ya perdí che!")		
 	}
+	method puedeMover() {
+		return false
+	}
 }
 
 object ganadora {
@@ -23,6 +26,9 @@ object ganadora {
 	
 	method validarMover(){
 		self.error("Pa' qué si ya gané ")		
+	}
+	method puedeMover() {
+		return false
 	}
 	
 }
@@ -36,6 +42,11 @@ object libre {
 	method validarMover(){
 				
 	}
+	
+	method puedeMover() {
+		return true
+	}
+	
 }
 
 
@@ -44,6 +55,8 @@ object pepita {
 	var property energia = 100
 	var property position = game.at(0, 5)
 	var property perseguidor=silvestre
+	
+	const property atravesable = true
 	
 	var estado = libre
 
@@ -94,22 +107,32 @@ object pepita {
 		energia = energia - self.energiaParaVolar(kms)
 	}
 	
+	method validarDesplazar(direccion, cantidad) {
+		direccion.validarMover(self, cantidad)
+	}
 	method desplazar(direccion, cantidad) {
 		direccion.mover(self, cantidad)
 	}
 	
-	method mover(direccion, cantidad) {
-		self.estado().validarMover()
-		self.volar(cantidad)
-		self.desplazar(direccion, cantidad)
-		if (self.debil()) {
-			self.perder()
+	method puedeMover(direccion, cantidad) {
+		return estado.puedeMover() and direccion.puedeMover(self, cantidad)
+	}
+	
+	method moverSiPuede(direccion, cantidad) {
+		if (self.puedeMover(direccion, cantidad)) { 			
+			self.volar(cantidad)
+			self.desplazar(direccion, cantidad)
+			if (self.debil()) {
+				self.perder()
+			}		
 		}
 	}
 
 	
 	method caer() {
-		self.desplazar(abajo, 1)
+		if (abajo.puedeMover(self,1)) {
+			self.desplazar(abajo, 1)
+		}
 	}
 	
 	method energia() {

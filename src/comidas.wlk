@@ -51,6 +51,8 @@ class Manzana {
 	const base= 5
 	var madurez = 1
 	
+	const property atravesable = true
+	
 	var property position = game.at(5,9)
 	
 	method image() { return "manzana.png" }
@@ -73,6 +75,7 @@ class Manzana {
 class Alpiste {
 	var property position = game.at(3,4)
 	const peso = 10
+	const property atravesable = true
 	
 	method image() { return "alpiste.png" }
 

@@ -11,11 +11,15 @@ program pepitaGame {
 	game.addVisual(silvestre)
 	game.addVisual(nido)
 	game.addVisual(pepita)
+	
+	(3..5).forEach({x => game.addVisual(new Muro(position=game.at(x,6)))})
+	(3..5).forEach({y => game.addVisual(new Muro(position=game.at(6,y)))})
+	
 	game.addVisual(new Manzana(position=game.at(1,1)))
-	keyboard.up().onPressDo({ pepita.mover(arriba, 1)  })
-	keyboard.down().onPressDo({ pepita.mover(abajo, 1) })
-	keyboard.left().onPressDo({ pepita.mover(izquierda, 1) })
-	keyboard.right().onPressDo({ pepita.mover(derecha, 1) })
+	keyboard.up().onPressDo({ pepita.moverSiPuede(arriba, 1)  })
+	keyboard.down().onPressDo({ pepita.moverSiPuede(abajo, 1) })
+	keyboard.left().onPressDo({ pepita.moverSiPuede(izquierda, 1) })
+	keyboard.right().onPressDo({ pepita.moverSiPuede(derecha, 1) })
 	game.onTick(1000, "GRAVEDAD", {pepita.caer()})	
 	game.onTick(3000, "GENERAR_ALIMENTO", {alimentoManager.generar()})
 
